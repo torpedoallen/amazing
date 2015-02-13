@@ -1,0 +1,11 @@
+<html>
+    <head>
+    </head>
+    <body>
+        <ul>
+            {% for e in entries %}
+            <li><a href="{{ e.url }}">{{ e.human }}</a></li>
+            {% endfor %}
+        </ul>
+    </body>
+</html>
