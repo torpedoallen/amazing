@@ -35,14 +35,15 @@ def teardown_request(exception):
 def initdb():
     conn = MySQLdb.connect(host="localhost",user="root",passwd="root",db="amazing")
     cur = conn.cursor()
-    cur.execute("drop table books")
-    cur.execute("drop table chapters")
+    cur.execute("drop table if exists books")
+    cur.execute("drop table if exists chapters")
     cur.execute(
-	"create table IF NOT EXISTS books ( "
+	"create table if not exists books ( "
 	"number integer primary key not null, "
 	"osis text not null, "
 	"human text not null, "
 	"chapters integer not null)")
+
     cur.execute(
 	"create table if not exists chapters ( "
 	"osis varchar not null, "
