@@ -4,7 +4,7 @@
     <body>
         <ul>
             {% for e in entries %}
-            <li><a href="{{ e.url }}">{{ e.human }}</a></li>
+            <li><a href="{{ e.url }}">{{ e.number}} {{ e.human }} {{ e.osis}} {{ e.chapters }}</a></li>
             {% endfor %}
         </ul>
     </body>

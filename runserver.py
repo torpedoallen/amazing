@@ -3,6 +3,7 @@
 
 
 import sqlite3
+import MySQLdb
 from flask import Flask, g, render_template
 from models import Entry
 
@@ -20,6 +21,7 @@ def connect_db():
 @app.before_request
 def before_request():
     g.db = connect_db()
+    g.conn = MySQLdb.connect(host="localhost",user="root",passwd="root",db="amazing")
 
 @app.teardown_request
 def teardown_request(exception):
@@ -28,5 +30,37 @@ def teardown_request(exception):
         db.close()
 
 
+
+
+def initdb():
+    conn = MySQLdb.connect(host="localhost",user="root",passwd="root",db="amazing")
+    cur = conn.cursor()
+    cur.execute("drop table books")
+    cur.execute("drop table chapters")
+    cur.execute(
+	"create table IF NOT EXISTS books ( "
+	"number integer primary key not null, "
+	"osis text not null, "
+	"human text not null, "
+	"chapters integer not null)")
+    cur.execute(
+	"create table if not exists chapters ( "
+	"osis varchar not null, "
+	"osis_number int(3) not null, "
+	"human varchar not null, "
+	"content text not null, "
+	"previous_osis varchar, "
+	"previous_osis_number int(3) default null, "
+	"previous_human varchar, "
+	"next_osis varchar, "
+	"next_osis_number int(3) default null, "
+	"next_human varchar, "
+	"primary key (`osis`,`osis_number`), "
+	"index `previous_osis_index` (`previous_osis`,`previous_osis_number`), "
+	"index `next_osis_index` (`next_osis`,`next_osis_number`))")
+    conn.commit()
+
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    #app.run(debug=True)
+    initdb()
