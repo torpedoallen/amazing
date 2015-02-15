@@ -8,7 +8,7 @@ from flask import Flask, g, render_template
 from models import Entry
 
 app = Flask(__name__)
-app.config.from_object('config')
+app.config.from_object('config.DevelopmentConfig')
 
 @app.route('/')
 def index():
@@ -16,12 +16,12 @@ def index():
     return render_template('index.html', entries=entries)
 
 def connect_db():
-    return sqlite3.connect(app.config['DATABASE'])
+    return sqlite3.connect(app.config['DATABASE_URI'])
 
 @app.before_request
 def before_request():
     g.db = connect_db()
-    g.conn = MySQLdb.connect(host="localhost",user="root",passwd="root",db="amazing")
+    #g.conn = MySQLdb.connect(host="localhost",user="root",passwd="root",db="amazing")
 
 @app.teardown_request
 def teardown_request(exception):
