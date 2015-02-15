@@ -8,16 +8,18 @@ def initdb():
     tables = [(
 	"drop table if exists books",
 
-	"create table if not exists books ( "
-	"number integer primary key not null, "
+	"create table books ( "
+	"number integer not null, "
 	"osis text not null, "
 	"human text not null, "
-	"chapters integer not null)"),
+	"chapters integer not null, "
+        "primary key (`number`) "
+	")"),
 
 	(
 	"drop table if exists chapters",
 
-        "create table if not exists chapters ( "
+        "create table chapters ( "
         "osis varchar(10) not null, "
         "osis_number int(3) not null, "
         "human varchar(20) not null, "
@@ -30,15 +32,46 @@ def initdb():
         "next_human varchar(20), "
         "primary key (`osis`,`osis_number`), "
         "index `previous_osis_index` (`previous_osis`,`previous_osis_number`), "
-        "index `next_osis_index` (`next_osis`,`next_osis_number`))"),
+        "index `next_osis_index` (`next_osis`,`next_osis_number`)"
+	")"),
 
 	(
 	"drop table if exists verses",
-	"create table if not exists verses (`id` integer primary key, book char(7), verse real, unformatted text)")
+
+	"create table verses ("
+	"`id` integer not null, "
+	"book char(7), "
+	"verse real, "
+	"unformatted text, "
+        "primary key (`id`), "
+	"index `verse_lookup_index` (`book`, `verse`)"
+	")"),
+
+	(
+	"drop table if exists metadata",
+
+	"create table metadata ("
+	"`name` varchar(64) not null, "
+	"value varchar(128), "
+        "primary key (`name`) "
+	")"),
+
+	(
+	"drop table if exists annotations",
+
+	"create table annotations ("
+	"`id` integer not null, "
+	"osis varchar(10) not null, "
+	"`link` varchar(64) not null, "
+	"content text not null, "
+        "primary key (`id`), "
+	"unique key `annotation_unique_key` (`osis`, `link`)"
+	")"),
 	]
 
     for (drop, create) in tables:
         cur.execute(drop)
+        print create
         cur.execute(create)
     conn.commit()
 
