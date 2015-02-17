@@ -2,33 +2,22 @@
 
 
 
-import sqlite3
-import MySQLdb
-from flask import Flask, g, render_template
-from models import Entry
+from flask import Flask, g
+from views import index_page
 
 app = Flask(__name__)
 app.config.from_object('config.DevelopmentConfig')
 
-@app.route('/')
-def index():
-    entries = Entry.gets_all()
-    return render_template('index.html', entries=entries)
-
-def connect_db():
-    return sqlite3.connect(app.config['DATABASE_URI'])
 
 @app.before_request
 def before_request():
-    g.db = connect_db()
-    #g.conn = MySQLdb.connect(host="localhost",user="root",passwd="root",db="amazing")
+    pass
 
 @app.teardown_request
 def teardown_request(exception):
-    db = getattr(g, 'db', None)
-    if db is not None:
-        db.close()
+    pass
 
+app.register_blueprint(index_page)
 
 if __name__ == '__main__':
     app.run(debug=True)

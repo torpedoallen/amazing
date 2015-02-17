@@ -4,10 +4,9 @@
 class Config(object):
     DEBUG = False
     TESTING = False
-    DATABASE_URI = 'bible.db'
 
 class ProductionConfig(Config):
-    DATABASE_URI = 'mysql://root:root@localhost/amazing'
+    pass
 
 class DevelopmentConfig(Config):
     DEBUG = True

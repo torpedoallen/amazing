@@ -1,9 +1,14 @@
 # coding=utf8
 
+import sqlite3
 import MySQLdb
 
+SQLITE_DATABASE_URI = 'bible.db'
+sqlite_db = sqlite3.connect(SQLITE_DATABASE_URI)
+mysql_conn = MySQLdb.connect(host="localhost",user="root",passwd="root", db="amazing")
+
 def initdb():
-    conn = MySQLdb.connect(host="localhost",user="root",passwd="root",db="amazing")
+    conn = mysql_conn
     cur = conn.cursor()
     tables = [(
 	"drop table if exists books",
@@ -71,9 +76,10 @@ def initdb():
 
     for (drop, create) in tables:
         cur.execute(drop)
-        print create
         cur.execute(create)
     conn.commit()
+
+
 
 
 if __name__ == '__main__':

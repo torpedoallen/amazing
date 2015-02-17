@@ -55,3 +55,4 @@ target/
 venv/
 *.swp
 *.db
+bower_components/
