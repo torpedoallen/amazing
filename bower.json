@@ -1,0 +1,22 @@
+{
+  "name": "amazing",
+  "version": "0.0.0",
+  "homepage": "https://github.com/torpedoallen/amazing",
+  "authors": [
+    "torpedoallen <torpedoallen@gmail.com>"
+  ],
+  "description": "amazing grace",
+  "main": "static/js/amazing.js",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "static/vendor",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "react": "~0.12.2"
+  }
+}
